@@ -1,0 +1,74 @@
+FILAS:
+	Bastante similar à pilha, mas mudando a ordem de insersão e remoção de elementos
+	F.I.F.O: First in, First out -----> O primeiro a entrar é o primeiro à sair
+	Exemplo: sistema de empréstimo de livros numa biblioteca. Uma lista de alunos que requisita o livro.
+		O primeiro a pedir será o primeiro a retirar. Quem entra na fila, entra no final e o primeiro que entrar
+		será o primeiro à sair.
+
+	OPERAÇÕES:
+		-Criar
+		-Inserir Elemento
+		-Retirar Elemento
+		-Contar elementos
+		-Resetar
+		-isFull
+		-isEmpty
+
+	FORMALIZAÇÃO:
+		Serve para modelar situações em que é necessário criar um gerenciamento F.I.F.O
+		-Biblioteca
+		-Impressão de documentos
+		-Aeroportos
+
+
+	IMPLEMENTAÇÃO:
+		Precisaremos de um vetor, de uma variável int que aponte para o inicio e uma variável int que aponte para o fim
+		 i   f    
+		 v   v
+		[A,B,C, , ]
+
+		inicio começa valendo -1
+		fim começa como 0
+
+		Fila vazia:
+			A condição para fila vazia é: inicio == -1 && fim == 0;
+
+		Fila cheia:
+			A condição para fila cheia é: inicio == 0 && fim == tamanhoVetor;
+
+		Exemplo:
+			Caso nós cheguemos numa situação em que a fila está cheia, nós então excluimos dois elementos para poder inserir outros dois, nós ficariamos, a princípio, com algo assim:
+					     i   f    
+		 			     v   v
+		 			[ , ,C,D,E]
+		 	Perceba que há dois elementos vazios no inicio, e que a variável inicio está guardando o valor 2.
+		 	Como faremos para inserir um novo elemento?
+
+
+		VETOR CIRCULAR:
+			Serve para reutilizar espaços na fila. 
+			Existe um caminho que leva da posição final para a posição inicial, para que quando haja espaço no começo e não haja no final, o "elemento final" seja deslocado para o início.
+
+			i % tamanho: nosso endereçamento dos índices desse vetor.
+			Quando i for igual à tamanho, i % tamanho == 0;
+
+			Nesse caso: Utilizar outra variável para armazenar o total de elementos que existem na fila.
+				Condição inicial da fila (Criação da fila): total == 0 && final == 0 && inicio == 0; 
+				Condição fila vazia: total == 0; (independentemente dos valores de inicio e fim)
+				Condição fila cheia: total == tamanhoVetor; (independentemente dos valores de inicio e fim)
+
+
+	DECLARAÇÃO EM C:
+		fila.h
+
+				define #tamFila 100
+
+				typedef int elem;
+				typedef struct fila Fila_t;
+
+
+		fila.c
+				struct fila{
+					int inicio, fim, total;
+					elem itens[tamFila];
+				}
