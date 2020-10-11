@@ -11,7 +11,7 @@ char *nomeSemLocalidade(const char *nome);
 int main(int argc, char const *argv[])
 {
 	int numeroNomes;
-	scanf("%d", &numeroNomes);
+	scanf(" %d ", &numeroNomes);
 
 	char **nomes = (char**) malloc(numeroNomes * sizeof(char*));
 	for (int i = 0; i < numeroNomes; i++)
@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
 	}
 
 	int numeroBuscas, resultadoBusca;
-	scanf("%d", &numeroBuscas);
+	scanf(" %d ", &numeroBuscas);
 	char **nomesBusca = (char **) malloc(numeroBuscas * sizeof(char*));
 	for (int i = 0; i < numeroBuscas; i++)
 	{
@@ -123,7 +123,6 @@ char *readline(FILE *stream){
 }
 
 int buscarNomes(char **listaNomes, char *nomeBuscado, int numeroNomes){
-	int verifica = 0;
 	for (int i = 0; i < numeroNomes; i++)
 	{
 		if ((strstr(listaNomes[i], nomeBuscado) != NULL) && (strstr(listaNomes[i], "Sao Carlos")))
