@@ -5,29 +5,38 @@
 int verifica_ordem_alfabetica(char *string1, char *string2);
 char **cocktail_sort(char **strings, int nStings);
 char *readline(FILE *stream);
+int buscarNomes(char **listaNomes, char *nomeBuscado, int numeroNomes);
+char *nomeSemLocalidade(const char *nome);
 
 int main(int argc, char const *argv[])
 {
-	char **strings = (char**) malloc(10 * sizeof(char*));
-	for (int i = 0; i < 10; i++)
+	int numeroNomes;
+	scanf("%d", &numeroNomes);
+
+	char **nomes = (char**) malloc(numeroNomes * sizeof(char*));
+	for (int i = 0; i < numeroNomes; i++)
 	{
-		strings[i] = (char*) malloc(256 * sizeof(char));
+		nomes[i] = (char*) malloc(256 * sizeof(char));
+		nomes[i] = readline(stdin);
 	}
 
-	int numero;
-	scanf("%d", &numero);
+	cocktail_sort(nomes, numeroNomes);
 
-	for (int i = 0; i < numero; i++)
+	for (int i = 0; i < numeroNomes; i++)
 	{
-		strings[i] = readline(stdin);
-	}
-	cocktail_sort(strings, numero);
-
-	for (int i = 0; i < numero; i++)
-	{
-		printf("%s\n", strings[i]);
+		printf("%s\n", nomeSemLocalidade(nomes[i]));
 	}
 
+	int numeroBuscas, resultadoBusca;
+	scanf("%d", &numeroBuscas);
+	char **nomesBusca = (char **) malloc(numeroBuscas * sizeof(char*));
+	for (int i = 0; i < numeroBuscas; i++)
+	{
+		nomesBusca[i] = (char *) malloc(256 * sizeof(char));
+		nomesBusca[i] = readline(stdin);
+		resultadoBusca = buscarNomes(nomes, nomesBusca[i], numeroNomes);
+		printf("%d\n", resultadoBusca);
+	}
 
 	return 0;
 }
@@ -111,4 +120,31 @@ char *readline(FILE *stream){
 	} while (string[i-1] != '\n' && !feof(stream));
 	string[i-1] = '\0';
 	return string;
+}
+
+int buscarNomes(char **listaNomes, char *nomeBuscado, int numeroNomes){
+	int verifica = 0;
+	for (int i = 0; i < numeroNomes; i++)
+	{
+		if ((strstr(listaNomes[i], nomeBuscado) != NULL) && (strstr(listaNomes[i], "Sao Carlos")))
+			return 1;
+	}
+	return 0;
+}
+
+char *nomeSemLocalidade(const char *nome){
+	char *novoNome = (char *) malloc(256 *sizeof(char));
+	for (int i = 0; i < strlen(nome); i++)
+	{
+		if (nome[i] != '.')
+		{
+			novoNome[i] = nome[i];
+		}
+		else{
+			novoNome[i] = '.';
+			novoNome[i+1] = '\0';
+			break;
+		}
+	}
+	return novoNome;
 }
