@@ -38,38 +38,85 @@ int main(int argc, char const *argv[])
 		printf("%d\n", resultadoBusca);
 	}
 
+	for (int i = 0; i < numeroNomes; i++)
+	{
+		free(nomes[i]);
+	}
+	free(nomes);
+	for (int i = 0; i < numeroBuscas; i++)
+	{
+		free(nomesBusca[i]);
+	}
+	free(nomesBusca);
+
 	return 0;
 }
 
 //Retorna 1 se string 1 vem primeiro e 2 se string 2 vem primeiro. Retorna 0 se são a mesma palavra
 int verifica_ordem_alfabetica(char *string1, char *string2){
+	char *novaString1 = (char*)malloc(512 * sizeof(char));
+	char *novaString2 = (char*)malloc(512 * sizeof(char));
+
+	strcpy(novaString1, string1);
+	strcpy(novaString2, string2);
+
+	for (int i = 0; i < strlen(novaString1); i++)
+	{
+		if (novaString1[i] >= 'a' && novaString1[i] <= 'z')
+		{
+			novaString1[i] = novaString1[i] - 32;
+		}
+	}
+
+	for (int i = 0; i < strlen(novaString2); i++)
+	{
+		if (novaString2[i] >= 'a' && novaString2[i] <= 'z')
+		{
+			novaString2[i] = novaString2[i] - 32;
+		}
+	}
+
 	int tamanho;
 	int testaDiferenca;
-	if (strlen(string1) > strlen(string2)){
-		tamanho = strlen(string1);
+	if (strlen(novaString1) > strlen(novaString2)){
+		tamanho = strlen(novaString1);
 		testaDiferenca = 2;
 	}
-	else if(strlen(string1) < strlen(string2)){
-		tamanho = strlen(string2);
+	else if(strlen(novaString1) < strlen(novaString2)){
+		tamanho = strlen(novaString2);
 		testaDiferenca = 1;
 	}
 	else{
-		tamanho = strlen(string2);
+		tamanho = strlen(novaString2);
 		testaDiferenca = 0;
 	}
 
 	for (int i = 0; i < tamanho; i++)
 	{
-		if (string1[i] < string2[i])
+		if (novaString1[i] < novaString2[i]){
+			free(novaString1);
+			free(novaString2);
 			return 1;
-		else if (string1[i] > string2[i])
+		}
+		else if (novaString1[i] > novaString2[i]){
+			free(novaString1);
+			free(novaString2);
 			return 2;
+		}
 	}
 
-	if (testaDiferenca == 1)
+	if (testaDiferenca == 1){
+		free(novaString1);
+		free(novaString2);
 		return 1;
-	else if(testaDiferenca == 2)
+	}
+	else if(testaDiferenca == 2){
+		free(novaString1);
+		free(novaString2);
 		return 2;
+	}
+	free(novaString1);
+	free(novaString2);
 	return 0;
 }
 
@@ -106,9 +153,13 @@ char **cocktail_sort(char **strings, int nStings){
 char *readline(FILE *stream){
 	int i = 0;
 	char aux;
-	char *string = (char*) malloc(256 * sizeof(char));
+	char *string = NULL;
 	do
 	{
+		if (i%256 == 0)
+		{
+			string = (char*) realloc(string, (i+1)*256*sizeof(char));
+		}
 		aux = getc(stream);
 		if(aux == '\n' && i == 0)
 			i--;
