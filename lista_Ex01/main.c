@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct no lista
+typedef struct no lista;
 
 struct no{
 	int info;
@@ -15,8 +15,7 @@ int main(int argc, char const *argv[])
 	lista *fim = NULL;
 	lista *p = NULL;
 
-	int num;
-	scanf("%d", num);
+	scanf("%d", &num);
 
 	while(num != -1){
 		p = (lista *) malloc (sizeof(lista));
@@ -26,9 +25,22 @@ int main(int argc, char const *argv[])
 			ini = p;
 			fim = p;
 		}else{//Lista possui pelo menos um elemento
-			fim->proximo;
+			fim->prox = p;
 			fim = p;
 		}
+		scanf("%d", &num);
+	}
+
+	p = ini;
+
+	while(p != NULL){
+		printf("%d\n", p->info);
+		p = p->prox;
+	}
+	while(ini != NULL){
+		p = ini;
+		ini = ini->prox;
+		free(p);
 	}
 	return 0;
 }
