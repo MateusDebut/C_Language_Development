@@ -1,46 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "lista.h"
 
-typedef struct no lista;
-
-struct no{
-	int info;
-	lista *prox;
-};
-
-int main(int argc, char const *argv[])
+int main()
 {
-	int num;
-	lista *ini = NULL;
-	lista *fim = NULL;
-	lista *p = NULL;
+	lista_t *l = cria();
+	int i = 0;
 
-	scanf("%d", &num);
-
-	while(num != -1){
-		p = (lista *) malloc (sizeof(lista));
-		p->info = num;
-		p->prox = NULL;
-		if(ini == NULL){//Lista Vazia
-			ini = p;
-			fim = p;
-		}else{//Lista possui pelo menos um elemento
-			fim->prox = p;
-			fim = p;
-		}
-		scanf("%d", &num);
+	for (i = 0; i < 5; i++)
+	{
+		insere(l, (i+1)*i);
 	}
 
-	p = ini;
+	imprimir(l);
 
-	while(p != NULL){
-		printf("%d\n", p->info);
-		p = p->prox;
-	}
-	while(ini != NULL){
-		p = ini;
-		ini = ini->prox;
-		free(p);
-	}
+	liberar(l);
+
 	return 0;
 }
