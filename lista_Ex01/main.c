@@ -14,6 +14,10 @@ int main()
 
 	imprimir(l);
 
+	remover(l, 20);
+
+	imprimir(l);
+
 	liberar(l);
 
 	return 0;

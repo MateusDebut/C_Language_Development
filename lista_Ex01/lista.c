@@ -90,7 +90,7 @@ int esta_na_lista(lista_t *l, elem x){
 	return 0;
 }
 
-void remove(lista_t *l, elem x){
+void remover(lista_t *l, elem x){
 	no_t *p = l->ini;
 	no_t *ant = NULL;
 
@@ -112,6 +112,7 @@ void remove(lista_t *l, elem x){
 				free(p);
 				p = NULL;
 			}
+		l->tam--;
 		}else{
 			ant = p;
 			p = p->prox;
