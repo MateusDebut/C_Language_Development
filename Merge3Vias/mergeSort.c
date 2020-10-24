@@ -5,24 +5,22 @@ void mergeSort(int *vetor, int inicio, int fim);
 void merge(int *vetor, int inicio, int meio, int fim);
 int *readVector(FILE *stream, int *i);
 int calcularTamanhoVetor(int *vetor);
+void imprimeVetor(int *vetor, int tamanho);
 
 int main(int argc, char const *argv[])
 {
 	int *vetor;
 	int tamanho = 0;
 	vetor = readVector(stdin, &tamanho);
-	for (int i = 0; i < tamanho; i++)
-	{
-		printf("%d ", vetor[i]);
-	}
-
-	mergeSort(vetor, 0, tamanho);
+	imprimeVetor(vetor, tamanho);
+	mergeSort(vetor, 0, tamanho-1);
+	imprimeVetor(vetor, tamanho);
 
 	return 0;
 }
 
 void mergeSort(int *vetor, int inicio, int fim){
-	if ((fim - inicio) <= 1) return;
+	if (fim <= inicio) return;
 		int meio = (int)((fim + inicio)/2.0);
 		mergeSort(vetor, inicio, meio);
 		mergeSort(vetor, meio+1, fim);
@@ -35,7 +33,6 @@ void merge(int *vetor, int inicio, int meio, int fim){
 	int i = inicio;
 	int j = meio+1;
 	int k = 0;
-	
 	while(i <= meio && j <= fim){
 		if (vetor[i] <= vetor[j])
 		{
@@ -48,14 +45,14 @@ void merge(int *vetor, int inicio, int meio, int fim){
 		k++;
 	}
 
-	while(i <= c){
-		aux[k] = v[i];
+	while(i <= meio){
+		aux[k] = vetor[i];
 		i++; k++;
 	}
 
 		while(j <= fim){
-		aux[k] = v[j];
-		i++; k++;
+		aux[k] = vetor[j];
+		j++; k++;
 	}
 
 	for (i = inicio, k = 0; i <= fim; i++, k++)
@@ -68,12 +65,25 @@ void merge(int *vetor, int inicio, int meio, int fim){
 
 int *readVector(FILE *stream, int *i){
 	*i = 0;
+	int j = 0;
 	int *vector = NULL;
-	while(!feof(stream))
-	{
-		vector = (int *) realloc(vector, (*i+1) * sizeof(int));
-		scanf("%d", &vector[*i]);
+	
+	do{
+		vector = (int *) realloc(vector, (j+1) * sizeof(int));
+		scanf("%d", &vector[j]);
+		j = j + 1;
 		*i = *i + 1;
-	}
+	}while(!feof(stream));
+	//printf("Esse é o último elemento do vetor: %d\n", vector[j]);
+	vector = (int *) realloc(vector, (j-1) * sizeof(int));
+	//printf("Esse é o último elemento do vetor: %d\n", vector[j-1]);
 	return vector;
+}
+
+void imprimeVetor(int *vetor, int tamanho){
+	for (int i = 0; i < tamanho; i++)
+	{
+		printf("%d ", vetor[i]);
+	}
+	printf("\n");
 }
