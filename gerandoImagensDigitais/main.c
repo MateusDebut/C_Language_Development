@@ -1,6 +1,7 @@
 //Autor: Mateus dos Santos Ribeiro; Github: https://github.com/MateusBCC020/
 #include <stdio.h>
 #include <stdlib.h>
+#include "util.h"
 
 /*
 	N == matrixSize
@@ -18,7 +19,9 @@ int main(int argc, char const *argv[])
 	scanf("%d", &columnPixel);
 	scanf("%d", &seed);
 
-
+	int ** matrix = generateMatrix(seed, matrixSize);
+	printMatrix(matrixSize, matrix);
+	destroyMatrix(matrixSize, matrix);
 
 	return 0;
 }
