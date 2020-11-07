@@ -21,6 +21,9 @@ int main(int argc, char const *argv[])
 
 	int ** matrix = generateMatrix(seed, matrixSize);
 	printMatrix(matrixSize, matrix);
+	matrix = modifyPixel(linePixel, columnPixel, matrix, seed, matrixSize);
+	printf("\n");
+	printMatrix(matrixSize, matrix);
 	destroyMatrix(matrixSize, matrix);
 
 	return 0;
