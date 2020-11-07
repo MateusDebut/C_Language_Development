@@ -32,74 +32,75 @@ void printMatrix(int matrixSize, int **matrix){
 	{
 		for (int j = 0; j < matrixSize; j++)
 		{
-			printf("%d ", matrix[i][j]);
+			printf("%d\t", matrix[i][j]);
 		}
-		printf("\n");
+
 	}
 }
 
 int **modifyPixel(int linePixel, int columnPixel, int **matrix, int t, int matrixSize){
-	printf("Aqui 1\n");
-	printf("linha: %d, coluna: %d, tamanho: %d\n", linePixel, columnPixel, matrixSize);
 	//Primeiro caso base (as bordas da matriz foram atingidas)
-	if((linePixel <= 0 && columnPixel >= 0)
-		|| (linePixel <= 0 && columnPixel >= matrixSize) || (linePixel >= matrixSize && columnPixel <= 0)
-		|| (linePixel >= matrixSize && columnPixel >= matrixSize)){
+	if((linePixel < 0 && columnPixel < 0) || (linePixel < 0 && columnPixel >= matrixSize)
+	 	|| (linePixel >= matrixSize && columnPixel < 0)	
+	 	|| (linePixel >= matrixSize && columnPixel >= matrixSize)){
 		return matrix;
 	}
-		
 
-	printf("Aqui 2\n");
 	int p = matrix[linePixel][columnPixel];
 	int v;
 	int m;
-	if (linePixel-1 < 0) return matrix;
-	if (columnPixel-1 < 0) return matrix;
 
-	v = matrix[linePixel-1][columnPixel];
-	if (p!=v){
-		m = abs(p-v);
-		printf("Aqui 4\n");
-		if (m <= t){
-			matrix[linePixel-1][columnPixel] = p;
-			printf("linha: %d, coluna: %d, tamanho: %d\n", linePixel, columnPixel, matrixSize);
-			modifyPixel(linePixel-1, columnPixel, matrix, t, matrixSize);
+	if (linePixel - 1 >= 0){
+		v = matrix[linePixel-1][columnPixel];
+		if (p!=v){
+			m = abs(p-v);
+	
+			if (m <= t){
+				matrix[linePixel-1][columnPixel] = p;
+		
+				modifyPixel(linePixel-1, columnPixel, matrix, t, matrixSize);
+			}
+		}
+	}
+
+	if (columnPixel + 1 < matrixSize){
+		v = matrix[linePixel][columnPixel+1];
+		if (p!=v){
+			m = abs(p-v);
+	
+			if (m <= t){
+				matrix[linePixel][columnPixel+1] = p;
+		
+				modifyPixel(linePixel, columnPixel+1, matrix, t, matrixSize);
+			}
+		}
+	}
+
+	if (linePixel + 1 < matrixSize){
+		v = matrix[linePixel+1][columnPixel];
+		if (p!=v){
+			m = abs(p-v);
+	
+			if (m <= t){
+				matrix[linePixel+1][columnPixel] = p;
+		
+				modifyPixel(linePixel+1, columnPixel, matrix, t, matrixSize);
+			}
 		}
 	}
 
 
-	v = matrix[linePixel][columnPixel+1];
-
-	if (p!=v){
-		m = abs(p-v);
-		printf("Aqui 5\n");
-		if (m <= t){
-			matrix[linePixel][columnPixel+1] = p;
-			printf("linha: %d, coluna: %d, tamanho: %d\n", linePixel, columnPixel, matrixSize);
-			modifyPixel(linePixel, columnPixel+1, matrix, t, matrixSize);
+	if (columnPixel - 1 >= 0){
+		v = matrix[linePixel][columnPixel-1];
+		if (p!=v){
+			m = abs(p-v);
+	
+			if (m <= t){
+				matrix[linePixel][columnPixel-1] = p;
+		
+				modifyPixel( linePixel, columnPixel-1, matrix, t, matrixSize);
+			}
 		}
 	}
-
-	v = matrix[linePixel+1][columnPixel];
-	if (p!=v){
-		m = abs(p-v);
-		printf("Aqui 6\n");
-		if (m <= t){
-			matrix[linePixel+1][columnPixel] = p;
-			printf("linha: %d, coluna: %d, tamanho: %d\n", linePixel, columnPixel, matrixSize);
-			modifyPixel(linePixel+1, columnPixel, matrix, t, matrixSize);
-		}
-	}
-	v = matrix[linePixel][columnPixel-1];
-	if (p!=v){
-		m = abs(p-v);
-		printf("Aqui 7\n");
-		if (m <= t){
-			matrix[linePixel][columnPixel-1] = p;
-			printf("linha: %d, coluna: %d, tamanho: %d\n", linePixel, columnPixel, matrixSize);
-			modifyPixel( linePixel, columnPixel-1, matrix, t, matrixSize);
-		}
-	}
-	printf("Aqui 8\n");
 	return matrix;
 }

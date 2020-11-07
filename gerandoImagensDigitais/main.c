@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
 	matrix = modifyPixel(linePixel, columnPixel, matrix, seed, matrixSize);
 	printf("\n");
 	printMatrix(matrixSize, matrix);
-	destroyMatrix(matrixSize, matrix);
+	//destroyMatrix(matrixSize, matrix);
 
 	return 0;
 }
