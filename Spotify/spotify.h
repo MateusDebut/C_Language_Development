@@ -1,10 +1,10 @@
 typedef struct dados{
 	char *track_name;
-	int track_id;
+	char *track_id;
 	char *album_name;
-	int album_id; 
+	char *album_id; 
 	char *artist_name; 
-	int artist_id; 
+	char *artist_id; 
 	char *release_date; 
 	int length; 
 	int popularity; 
@@ -19,4 +19,27 @@ typedef struct dados{
 	int time_signature;
 }dados_t;
 
+typedef struct header{
+	char *track_name;
+	char *track_id;
+	char *album_name;
+	char *album_id; 
+	char *artist_name; 
+	char *artist_id; 
+	char *release_date; 
+	char *length; 
+	char *popularity; 
+	char *acousticness;
+	char *danceability; 
+	char *energy; 
+	char *instrumentalness; 
+	char *liveness; 
+	char *loudness; 
+	char *speechiness; 
+	char *tempo; 
+	char *time_signature;
+}header_t;
+
 char *readline(FILE *stream);
+dados_t criaStructDados(dados_t dados, FILE *fp);
+header_t criaStructHeader(header_t header, FILE *fp);
