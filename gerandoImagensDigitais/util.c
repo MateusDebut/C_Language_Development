@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int **generateMatrix(int seed, int matrixSize){
 	srand((unsigned)seed);
@@ -34,7 +35,7 @@ void printMatrix(int matrixSize, int **matrix){
 		{
 			printf("%d\t", matrix[i][j]);
 		}
-
+		printf("\n");
 	}
 }
 
@@ -103,4 +104,22 @@ int **modifyPixel(int linePixel, int columnPixel, int **matrix, int t, int matri
 		}
 	}
 	return matrix;
+}
+
+void generateImage(int **matrix, int matrixSize, char *name, int seed){
+	FILE *fp;
+	fp = fopen(name, "wb");
+	fprintf(fp, "P2\n");
+	fprintf(fp, "%d %d\n", matrixSize, matrixSize);
+	fprintf(fp, "%d\n", seed);
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			fprintf(fp, "%d\n", matrix[i][j]);
+		}
+		fprintf(fp, "\n");
+	}
+	fclose(fp);
 }

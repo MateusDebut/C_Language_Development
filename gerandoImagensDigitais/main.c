@@ -1,6 +1,7 @@
-//Autor: Mateus dos Santos Ribeiro; Github: https://github.com/MateusBCC020/
+//Autor: Mateus dos Santos Ribeiro
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "util.h"
 
 /*
@@ -19,9 +20,14 @@ int main(int argc, char const *argv[])
 	scanf("%d", &columnPixel);
 	scanf("%d", &seed);
 
-	int ** matrix = generateMatrix(seed, matrixSize);
+	int **matrix = generateMatrix(seed, matrixSize);
+	char *name = (char*) malloc(256 * sizeof(char));
+	name = "Original.pgm";
+	generateImage(matrix, matrixSize, name, seed);
 	printMatrix(matrixSize, matrix);
 	matrix = modifyPixel(linePixel, columnPixel, matrix, seed, matrixSize);
+	name = "Modificado.pgm";
+	generateImage(matrix, matrixSize, name, seed);
 	printf("\n");
 	printMatrix(matrixSize, matrix);
 	//destroyMatrix(matrixSize, matrix);

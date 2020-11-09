@@ -16,9 +16,11 @@ char *readline(FILE *stream){
 			string = (char*) malloc(STRING_SIZE * (i+1) * sizeof(char));
 		}
 		aux = getc(stream);
+		//if ((aux == 32 && i <= 0 && controle > 1) || (aux == '\n' && i <= 0 && controle > 1)) return NULL;
 		if ((aux == 32 && i == 0) || (aux == '\n' && i == 0))
 		{
 			i--;
+			controle++;
 		}else{
 			string[i] = aux;
 		}
@@ -70,7 +72,6 @@ dados_t criaStructDados(dados_t dados, FILE *fp){
 	dados.speechiness = atof(readline(fp));
 	dados.tempo = atof(readline(fp));
 	dados.time_signature = atoi(readline(fp));
-	//fscanf(fp, "%i", &dados.time_signature);
 
 	return dados;
 }
