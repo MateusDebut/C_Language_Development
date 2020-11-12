@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "numbers.h"
+#include "list.h"
 
 int main(int argc, char const *argv[])
 {

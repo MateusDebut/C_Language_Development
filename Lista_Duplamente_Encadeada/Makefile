@@ -1,5 +1,5 @@
 #Nome do projeto
-PROJ_NOME=grandesNumeros
+PROJ_NOME=list
 
 #.c files
 C_SOURCE = $(wildcard *.c)
