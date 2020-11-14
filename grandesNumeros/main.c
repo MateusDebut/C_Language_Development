@@ -16,5 +16,13 @@ int main(int argc, char const *argv[])
 	printListBackwards(lista);
 	removeFromList(lista, 8);
 	printList(lista);
+	char *palavra = readline(stdin);
+	char **palavras;
+	palavras = divideLine(palavra);
+	for (int i = 0; i < 3; i++)
+	{
+		
+	}
+
 	return 0;
 }

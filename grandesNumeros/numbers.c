@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 #include "numbers.h"
+
+#define STRING_SIZE 32
 
 struct node
 {
@@ -146,3 +149,63 @@ void destroyList(list_t *l){
 		free(l);
 	}
 }
+
+char *readline(FILE *stream){
+	char *string = NULL;
+	int index = 0;
+	do
+	{
+		if (index % STRING_SIZE == 0)
+		{
+			string = (char *) realloc (string, STRING_SIZE * sizeof(char));
+		}
+		string[index] = getc(stream);
+
+	} while (!feof(stream) && string[index++] != '\n');
+	string[index-1] = '\0';
+	string = (char *) realloc (string, sizeof(string));
+	return string;
+}
+
+char **divideLine(char *string){
+	char **stringVector = (char **) malloc (3 * sizeof(char *));
+	for (int i = 0; i < 3; i++)
+	{
+		stringVector[i] = (char *) malloc(STRING_SIZE * sizeof(char));
+	}
+
+	int controller = 0;	
+	for (int i = controller; i < strlen(string); i++)
+	{
+		if(string[i] != 32 && string[i] != '\n'){
+			stringVector[0][i] = string[i];
+		}else{
+			stringVector[0][i] = '\0';
+			controller = i;
+			break;
+		}
+	}
+
+	for (int i = controller+1, j = 0; i < strlen(string); i++, j++)
+	{
+		if(string[i] != 32 && string[i] != '\n'){
+			stringVector[1][j] = string[i];
+		}else{
+			stringVector[1][j] = '\0';
+			controller = i;
+			break;
+		}
+	}
+
+	for (int i = controller+1, j = 0; i < strlen(string); i++, j++)
+	{
+		if(string[i] != 32 && string[i] != '\n'){
+			stringVector[2][j] = string[i];
+		}else{
+			stringVector[2][j] = '\0';
+			break;
+		}
+	}
+	return stringVector;
+}
+
