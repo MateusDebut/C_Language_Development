@@ -8,7 +8,7 @@
 
 struct node
 {
-	elem info;
+	elem numberVector[4];
 	node_t *previous;
 	node_t *next;
 };
@@ -17,6 +17,7 @@ struct list
 {
 	node_t *initial;
 	node_t *final;
+	node_t *sentinel;
 };
 
 list_t *createList(){
