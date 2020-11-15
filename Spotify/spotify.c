@@ -122,3 +122,14 @@ posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
 
 
 
+float calculaPopularidade(dados_t dados, int inicio, int fim){
+	float popularidade = 0;
+	int somatorio = 0;
+	for (int i = inicio; i < fim; i++)
+	{
+		somatorio = somatorio + dados[i].popularity;
+	}
+	popularidade = somatorio / (fim - inicio);
+	return popularidade;
+}
+

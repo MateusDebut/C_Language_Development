@@ -61,3 +61,4 @@ void imprimeDados(dados_t dados);
 void mergesort(dados_t *dados, int ini, int fim);
 int compararNome (const void *a, const void *b);
 posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao);
+float calculaPopularidade(dados_t dados, int inicio, int fim);
