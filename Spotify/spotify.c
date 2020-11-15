@@ -9,26 +9,29 @@ char *readline(FILE *stream){
 	int i = 0;
 	char *string = NULL;
 	char aux;
-	int controle = 0;
 	do{
 		if (i % STRING_SIZE == 0)
 		{
 			string = (char*) malloc(STRING_SIZE * (i+1) * sizeof(char));
 		}
 		aux = getc(stream);
-		//if ((aux == 32 && i <= 0 && controle > 1) || (aux == '\n' && i <= 0 && controle > 1)) return NULL;
 		if ((aux == 32 && i == 0) || (aux == '\n' && i == 0))
 		{
 			i--;
-			controle++;
 		}else{
 			string[i] = aux;
 		}
 		i++;
 	}while(!feof(stream) && string[i-1] != ';' && string[i-1] != '\n');
+	if (i-1 == 0)
+	{
+		string[i-1] = '\0';
+		string[i] = '\0';
+		printf("%s\n", string);
+		return string;
+	}
 	string[i-1] = '\0';
 	string = (char*) realloc(string, strlen(string));
-	printf("%s\n", string);
 	return string;
 }
 
@@ -75,3 +78,47 @@ dados_t criaStructDados(dados_t dados, FILE *fp){
 
 	return dados;
 }
+
+void imprimeDados(dados_t dados){
+	printf("%s\n", dados.track_name);
+	printf("%s\n", dados.track_id);
+	printf("%s\n", dados.album_name);
+	printf("%s\n", dados.album_id);
+	printf("%s\n", dados.artist_name);
+	printf("%s\n", dados.artist_id);
+	printf("%s\n", dados.release_date);
+	printf("%d\n", dados.length);
+	printf("%d\n", dados.popularity);
+	printf("%f\n", dados.acousticness);
+	printf("%f\n", dados.danceability);
+	printf("%f\n", dados.energy);
+	printf("%s\n", dados.instrumentalness);
+	printf("%f\n", dados.liveness);
+	printf("%f\n", dados.loudness);
+	printf("%f\n", dados.speechiness);
+	printf("%f\n", dados.tempo);
+	printf("%d\n", dados.time_signature);
+	printf("\n");
+}
+
+int compararNome (const void *a, const void *b) {
+    return strcmp (((dados_t *)a)->artist_name,((dados_t *)b)->artist_name);
+}
+
+posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
+	posicao.numero_artistas = 0;
+	posicao.posicoes = NULL;
+	for (int i = 0; i < numeroDados-1; i++)
+	{
+		if (strcmp(dados[i].artist_name, dados[i+1].artist_name) != 0)
+		{
+			posicao.posicoes = (int *) realloc(posicao.posicoes, (posicao.numero_artistas+1) * sizeof(int));
+			posicao.posicoes[posicao.numero_artistas] = i+1;
+			posicao.numero_artistas++;
+		}
+	}
+	return posicao;
+}
+
+
+

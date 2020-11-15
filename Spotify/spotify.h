@@ -40,6 +40,24 @@ typedef struct header{
 	char *time_signature;
 }header_t;
 
+typedef struct artista
+{
+	char *nome_artista; 
+	int quantidade_musicas;
+	float popularidade;
+	char *link_spotify;
+}artista_t;
+
+typedef struct posicao
+{
+	int numero_artistas;
+	int *posicoes;
+}posicao_t;
+
 char *readline(FILE *stream);
 dados_t criaStructDados(dados_t dados, FILE *fp);
 header_t criaStructHeader(header_t header, FILE *fp);
+void imprimeDados(dados_t dados);
+void mergesort(dados_t *dados, int ini, int fim);
+int compararNome (const void *a, const void *b);
+posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao);
