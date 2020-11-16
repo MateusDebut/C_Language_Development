@@ -53,6 +53,7 @@ header_t criaStructHeader(header_t header, FILE *fp){
 	header.speechiness = readline(fp);
 	header.tempo = readline(fp);
 	header.time_signature = readline(fp);
+	return header;
 }
 
 dados_t criaStructDados(dados_t dados, FILE *fp){

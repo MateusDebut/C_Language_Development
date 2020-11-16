@@ -1,5 +1,5 @@
 #Nome do projeto
-PROJ_NOME=spotify
+PROJ_NOME=main
 
 #.c files
 C_SOURCE = $(wildcard *.c)
