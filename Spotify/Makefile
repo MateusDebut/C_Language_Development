@@ -18,7 +18,8 @@ CC_FLAGS =-c 	\
 		  -W 	\
 		  -Wall	\
 		  -ansi	\
-		  -pedantic
+		  -pedantic\
+		  -Werror \
 
 #compilation and linking
 all: $(PROJ_NOME)

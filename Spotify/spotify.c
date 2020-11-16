@@ -27,7 +27,6 @@ char *readline(FILE *stream){
 	{
 		string[i-1] = '\0';
 		string[i] = '\0';
-		printf("%s\n", string);
 		return string;
 	}
 	string[i-1] = '\0';
@@ -105,13 +104,34 @@ int compararNome (const void *a, const void *b) {
     return strcmp (((dados_t *)a)->artist_name,((dados_t *)b)->artist_name);
 }
 
+int compararPopularidade(const void *x, const void *y){
+    float pri = ((artista_t *)x)->popularidade;
+    float seg = ((artista_t *)y)->popularidade;
+    if (pri > seg)
+    {
+    	return 1;
+    }
+    else if (seg > pri)
+    {
+    	return -1;
+    }
+    return 0;
+}
+
 posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
 	posicao.numero_artistas = 0;
 	posicao.posicoes = NULL;
-	for (int i = 0; i < numeroDados-1; i++)
+	for (int i = 0; i < numeroDados; i++)
 	{
-		if (strcmp(dados[i].artist_name, dados[i+1].artist_name) != 0)
+		if (i+1 < numeroDados)
 		{
+			if (strcmp(dados[i].artist_name, dados[i+1].artist_name) != 0)
+			{
+				posicao.posicoes = (int *) realloc(posicao.posicoes, (posicao.numero_artistas+1) * sizeof(int));
+				posicao.posicoes[posicao.numero_artistas] = i+1;
+				posicao.numero_artistas++;
+			}
+		}else{
 			posicao.posicoes = (int *) realloc(posicao.posicoes, (posicao.numero_artistas+1) * sizeof(int));
 			posicao.posicoes[posicao.numero_artistas] = i+1;
 			posicao.numero_artistas++;
@@ -120,16 +140,37 @@ posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
 	return posicao;
 }
 
+artista_t criaStructArtista(dados_t *dados, int numero_linhas, posicao_t posicao, int indice){
+	artista_t artista;
+	artista.nome_artista = (char *) malloc(strlen(dados[posicao.posicoes[indice]].artist_name) * sizeof(char));
+	artista.artista_id = (char *) malloc (strlen(dados[posicao.posicoes[indice]].artist_id) * sizeof(char));
+	strcpy(artista.nome_artista, dados[posicao.posicoes[indice-1]].artist_name);
+	strcpy(artista.artista_id, dados[posicao.posicoes[indice-1]].artist_id);
+	if (indice == 0)
+	{
+		artista.quantidade_musicas = posicao.posicoes[indice];
+	}else{
+		artista.quantidade_musicas = posicao.posicoes[indice] - posicao.posicoes[indice-1];
+	}
+	if (indice == 0)
+	{
+		artista.popularidade = calculaPopularidade(dados, 0, posicao.posicoes[indice]);
+	}else{
+		artista.popularidade = calculaPopularidade(dados, posicao.posicoes[indice-1], posicao.posicoes[indice]);
+	}
+	return artista;	
+}
 
 
-float calculaPopularidade(dados_t dados, int inicio, int fim){
+float calculaPopularidade(dados_t *dados, int inicio, int fim){
 	float popularidade = 0;
-	int somatorio = 0;
+	float somatorio = 0;
 	for (int i = inicio; i < fim; i++)
 	{
 		somatorio = somatorio + dados[i].popularity;
 	}
-	popularidade = somatorio / (fim - inicio);
+	popularidade = (float)(somatorio / (fim - inicio));
+
 	return popularidade;
 }
 

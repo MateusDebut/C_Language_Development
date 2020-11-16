@@ -43,6 +43,7 @@ typedef struct header{
 typedef struct artista
 {
 	char *nome_artista; 
+	char *artista_id;
 	int quantidade_musicas;
 	float popularidade;
 	char *link_spotify;
@@ -60,5 +61,7 @@ header_t criaStructHeader(header_t header, FILE *fp);
 void imprimeDados(dados_t dados);
 void mergesort(dados_t *dados, int ini, int fim);
 int compararNome (const void *a, const void *b);
+int compararPopularidade(const void *x, const void *y);
 posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao);
-float calculaPopularidade(dados_t dados, int inicio, int fim);
+float calculaPopularidade(dados_t *dados, int inicio, int fim);
+artista_t criaStructArtista(dados_t *dados, int numero_linhas, posicao_t posicao, int indice);
