@@ -8,7 +8,7 @@
 
 struct node
 {
-	elem numberVector[4];
+	elem *numberVector;
 	node_t *previous;
 	node_t *next;
 	int size;
@@ -33,6 +33,8 @@ list_t *createList(){
 int putOnList(list_t *l, elem *vector, int size){
 	assert(l != NULL);
 	node_t *node = (node_t *) malloc(sizeof(node_t));
+	node->numberVector = NULL;
+	node->numberVector = (elem *) realloc(node->numberVector, size * sizeof(elem));
 	//caso onde o elemento será o primeiro da fila
 	if (l->initial == NULL)
 	{
@@ -118,52 +120,65 @@ char *readline(FILE *stream){
 			string = (char *) realloc (string, STRING_SIZE * sizeof(char));
 		}
 		string[index] = getc(stream);
-
-	} while (!feof(stream) && string[index++] != '\n');
+		index++;
+	} while (!feof(stream) && string[index-1] != '\n');
 	string[index-1] = '\0';
 	string = (char *) realloc (string, sizeof(string));
 	return string;
 }
 
-char **divideLine(char *string){
-	char **stringVector = (char **) malloc (3 * sizeof(char *));
-	for (int i = 0; i < 3; i++)
-	{
-		stringVector[i] = (char *) malloc(STRING_SIZE * sizeof(char));
+comands_t divideComands(char *string){
+	comands_t comands;
+	comands.comandName = (char *) malloc (STRING_SIZE * sizeof(char));
+	comands.num1 = NULL;
+	comands.num2 = NULL;
+	int i = 0;
+	int j = 0;
+	char aux[2];
+	while(string[i] != 32){
+		comands.comandName[j] = string[i];
+		i++;
+		j++;
 	}
-
-	int controller = 0;	
-	for (int i = controller; i < strlen(string); i++)
-	{
-		if(string[i] != 32 && string[i] != '\n'){
-			stringVector[0][i] = string[i];
+	comands.comandName[j] = '\0';
+	j = 0;
+	i++;
+	while(string[i] != 32){
+		comands.num1 = (int *) realloc(comands.num1, (j+1) * sizeof(int));
+		aux[0] = string[i];
+		aux[1] = '\0';
+		if (j == 0 && string[i] == '-')
+		{
+			aux[0] = string[i+1];
+			aux[1] = '\0';
+			comands.num1[j] = atoi(aux) * -1;
+			i++;
 		}else{
-			stringVector[0][i] = '\0';
-			controller = i;
-			break;
+			comands.num1[j] = atoi(aux);
 		}
+		i++;
+		j++;
 	}
-
-	for (int i = controller+1, j = 0; i < strlen(string); i++, j++)
-	{
-		if(string[i] != 32 && string[i] != '\n'){
-			stringVector[1][j] = string[i];
+	comands.sizeNum1 = j;
+	j = 0;
+	i++;
+	while(string[i] >= 32){
+		comands.num2 = (int *) realloc(comands.num2, (j+1) * sizeof(int));
+		aux[0] = string[i];
+		aux[1] = '\0';
+		if (j == 0 && string[i] == '-')
+		{
+			aux[0] = string[i+1];
+			aux[1] = '\0';
+			comands.num2[j] = atoi(aux) * -1;
+			i++;
 		}else{
-			stringVector[1][j] = '\0';
-			controller = i;
-			break;
+			comands.num2[j] = atoi(aux);
 		}
+		i++;
+		j++;
 	}
-
-	for (int i = controller+1, j = 0; i < strlen(string); i++, j++)
-	{
-		if(string[i] != 32 && string[i] != '\n'){
-			stringVector[2][j] = string[i];
-		}else{
-			stringVector[2][j] = '\0';
-			break;
-		}
-	}
-	return stringVector;
+	comands.sizeNum2 = j;
+	return comands;
 }
 
