@@ -6,23 +6,20 @@ int main(int argc, char const *argv[])
 {
 	
 	list_t *lista;
-
 	lista  = createList();
-
-	putOnList(lista, 10);
-	printList(lista);
-	putOnList(lista, 12);
-	putOnList(lista, 8);
-	printListBackwards(lista);
-	removeFromList(lista, 8);
-	printList(lista);
-	char *palavra = readline(stdin);
-	char **palavras;
-	palavras = divideLine(palavra);
+	elem *vector1 = (elem *) calloc(4, sizeof(elem));
+	elem *vector2 = (elem *) calloc(4, sizeof(elem));
+	int tamanho = 0;
 	for (int i = 0; i < 3; i++)
 	{
-		
+		vector1[i] = i*2;
+		vector2[i] = i*3;
 	}
+	putOnList(lista, vector1, 4);
+	putOnList(lista, vector2, 4);
+	printListBackwards(lista);
+	printList(lista);
+
 
 	return 0;
 }
