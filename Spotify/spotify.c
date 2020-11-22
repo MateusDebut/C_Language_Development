@@ -10,11 +10,15 @@ char *readline(FILE *stream){
 	char *string = NULL;
 	char aux;
 	do{
+		//Verifica se o tamanho da string deve ser incrementado (apenas quando
+		//string == NULL e quando string atingir STRING_SIZE)
 		if (i % STRING_SIZE == 0)
 		{
 			string = (char*) malloc(STRING_SIZE * (i+1) * sizeof(char));
 		}
 		aux = getc(stream);
+		//Essa linha é para tratar espaços e pulos de linha como primeiros caracteres
+		//Se isso ocorrer o i será decrementado para que possamos salvar um caracter válido na primeira posição
 		if ((aux == 32 && i == 0) || (aux == '\n' && i == 0))
 		{
 			i--;
@@ -23,6 +27,8 @@ char *readline(FILE *stream){
 		}
 		i++;
 	}while(!feof(stream) && string[i-1] != ';' && string[i-1] != '\n');
+	//Verifica se a string está vazia(i-1 == 0). Se estiver, coloca terminadores
+	// de string nos dois espaços alocados
 	if (i-1 == 0)
 	{
 		string[i-1] = '\0';
@@ -101,6 +107,7 @@ void imprimeDados(dados_t dados){
 	printf("\n");
 }
 
+//Ambas as funções de comparação serão usadas no qSort
 int compararNome (const void *a, const void *b) {
     return strcmp (((dados_t *)a)->artist_name,((dados_t *)b)->artist_name);
 }
@@ -119,13 +126,21 @@ int compararPopularidade(const void *x, const void *y){
     return 0;
 }
 
+
+
 posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
 	posicao.numero_artistas = 0;
 	posicao.posicoes = NULL;
+	//Ao chegar nessa função as structs estarão ordenadas em ordem alfabética (pelo artist_name)
+	//Esse laço testará as ocorrências de artist_name sequentes e diferentes e quando encontrar
+	//Considerará isso um novo artista (por causa da ordem alfabética)
 	for (int i = 0; i < numeroDados; i++)
 	{
+		//Essa condição evita que o programa verifique posições de memória não alocadas
 		if (i+1 < numeroDados)
 		{
+			//verifica se os artist_names são diferentes, se sim, separa um espaço no
+			//vetor para quardar o indice do novo artista no vetor de structs e incrementa o contador de artistas
 			if (strcmp(dados[i].artist_name, dados[i+1].artist_name) != 0)
 			{
 				posicao.posicoes = (int *) realloc(posicao.posicoes, (posicao.numero_artistas+1) * sizeof(int));
@@ -143,22 +158,28 @@ posicao_t contaArtista(dados_t *dados, int numeroDados, posicao_t posicao){
 
 artista_t criaStructArtista(dados_t *dados, int numero_linhas, posicao_t posicao, int indice){
 	artista_t artista;
+	//Alocamos espaço para o nome e o id, baseado nos índices que coletamos na função anterior
 	artista.nome_artista = (char *) malloc(strlen(dados[posicao.posicoes[indice]].artist_name) * sizeof(char));
 	artista.artista_id = (char *) malloc (strlen(dados[posicao.posicoes[indice]].artist_id) * sizeof(char));
+
 	strcpy(artista.nome_artista, dados[posicao.posicoes[indice-1]].artist_name);
 	strcpy(artista.artista_id, dados[posicao.posicoes[indice-1]].artist_id);
+
+	//Essa condição serve para não ignorarmos o primeiro artista
 	if (indice == 0)
 	{
 		artista.quantidade_musicas = posicao.posicoes[indice];
 	}else{
 		artista.quantidade_musicas = posicao.posicoes[indice] - posicao.posicoes[indice-1];
 	}
+
 	if (indice == 0)
 	{
 		artista.popularidade = calculaPopularidade(dados, 0, posicao.posicoes[indice]);
 	}else{
 		artista.popularidade = calculaPopularidade(dados, posicao.posicoes[indice-1], posicao.posicoes[indice]);
 	}
+	
 	return artista;	
 }
 
