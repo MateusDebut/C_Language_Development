@@ -3,12 +3,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-struct no{
-	elem info;
-	no_t *esq;
-	no_t *dir;
-};
-
 arvore_t *criaArvore(){
 	arvore_t *a = (arvore_t *) malloc(sizeof(arvore_t));
 	a->raiz = NULL;
@@ -30,18 +24,17 @@ void finalizar(no_t *raiz){
 	}
 }
 
-void imprimir (no_t *raiz){
-	if (raiz != NULL)
-	{
-		printf("%d(", raiz->info);
-		imprimir(raiz->esq);
-		printf(", ");
-		imprimir(raiz->dir);
+void imprimir (no_t *raiz, int indice){
+	if (raiz->info == -1)
+		return;
+	if (raiz->info != -1){
+		printf("no %d: pai = %d, altura = %d, grau = %d, filhos = (%d,%d), tipo = %s\n", indice,
+			busca(raiz, indice)->pai, (altura(busca(raiz, indice))-1),
+			verifica_grau(busca(raiz, indice)), busca(raiz, indice)->esq->info,
+		 	busca(raiz, indice)->dir->info, verifica_tipo(busca(raiz, indice)));
+		imprimir(raiz->esq, busca(raiz, indice)->esq->info);
+		imprimir(raiz->dir, busca(raiz, indice)->dir->info);
 	}
-	else{
-		printf("null");
-	}
-	printf(")");
 }
 
 int altura(no_t *raiz){
@@ -92,6 +85,7 @@ int inserir_esq(arvore_t *a, elem x, elem pai){
 	p->esq = NULL;
 	p->dir = NULL;
 	p->info = x;
+	p->pai = pai;
 	if(pai == -1){
 		if(a->raiz == NULL){
 			a->raiz = p;
@@ -116,6 +110,7 @@ int inserir_dir(arvore_t *a, elem x, elem pai){
 	p->esq = NULL;
 	p->dir = NULL;
 	p->info = x;
+	p->pai = pai;
 	if(pai == -1){
 		if(a->raiz == NULL){
 			a->raiz = p;
@@ -135,6 +130,29 @@ int inserir_dir(arvore_t *a, elem x, elem pai){
 	}
 	return 1;
 }
+
+int verifica_grau(no_t *raiz){
+	if (raiz == NULL)
+		return -1;
+
+	int grau = 0;
+	if (raiz->esq->info != -1)
+		grau++;
+	if (raiz->dir->info != -1)
+		grau++;
+	return grau;	
+}
+
+char *verifica_tipo(no_t *raiz){
+	//Caso em que o elemento é o primeiro (a raiz)
+	if (raiz->pai == -1)
+		return "raiz";
+	if ((raiz->esq != NULL && raiz->esq->info != -1) || (raiz->dir != NULL && raiz->dir->info != -1))
+		return "interno";
+	else
+		return "folha";
+}
+
 int remover(arvore_t *a, elem x){
 	return 0;
 }
