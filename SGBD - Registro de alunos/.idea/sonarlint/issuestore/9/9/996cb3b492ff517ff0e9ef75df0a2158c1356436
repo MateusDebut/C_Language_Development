@@ -1,0 +1,18 @@
+
+]c:S5276:"Eimplicit conversion loses integer precision: 'unsigned long' to 'int'(ÉÛ «ùÿÿÿÿ
+Zc:S5276X"Gimplicit conversion loses floating-point precision: 'double' to 'float'(èå¬
+gc:S5276Ï"Nimplicit conversion turns floating-point number into integer: 'float' to 'int'(áÔ—šùÿÿÿÿ
+rc:S995"[Make the type of this parameter a pointer-to-const. The current type of "nome" is "char *".(­†¬…úÿÿÿÿ
+rc:S995"`Make the type of this parameter a pointer-to-const. The current type of "sobrenome" is "char *".(¨şì™
+nc:S995"\Make the type of this parameter a pointer-to-const. The current type of "curso" is "char *".(áÎóÓ
+Kc:S26810"2This statement will not be executed conditionally.(†øöy8ò÷Ÿ×Š0
+dc:S1912S"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(üÙ¸´
+dc:S1912T"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(ˆ¿ñ
+ic:S1912U"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(„ÇÁéùÿÿÿÿ
+dc:S1912V"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(å×‰“
+kc:S1912W"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(­•’ƒ8à¨’×Š0
+kc:S1912X"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(èå¬8«Ç˜×Š0
+tc:S995\"]Make the type of this parameter a pointer-to-const. The current type of "string" is "char *".(‹À†ºşÿÿÿÿ
+ƒc:S995¾"dMake the type of this parameter a pointer-to-const. The current type of "aluno" is "struct aluno *".(ğàÛ³ıÿÿÿÿ8¸”‡×Š0
+ƒc:S995Î"dMake the type of this parameter a pointer-to-const. The current type of "aluno" is "struct aluno *".(Ğ´Ûİúÿÿÿÿ8¢ìÖóŠ0
+Pc:S3584¥"0Potential leak of memory pointed to by 'indices'(æÀö€øÿÿÿÿ8ËæúôŠ0

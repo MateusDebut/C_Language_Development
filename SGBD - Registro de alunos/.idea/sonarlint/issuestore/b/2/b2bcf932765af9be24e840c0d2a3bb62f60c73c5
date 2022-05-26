@@ -1,0 +1,23 @@
+
+Tc:S5276"<implicit conversion loses integer precision: 'int' to 'char'(‡õÆ…ùÿÿÿÿ
+5c:S125J"Remove the commented out code.(å¬ªœýÿÿÿÿ
+5c:S125M"Remove the commented out code.(å¬ªœýÿÿÿÿ
+5c:S125P"Remove the commented out code.(å¬ªœýÿÿÿÿ
+5c:S125S"Remove the commented out code.(å¬ªœýÿÿÿÿ
+ic:S1912""QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(ÔÖ”Îøÿÿÿÿ
+dc:S1912/"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(îâÈ˜
+dc:S19129"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(îâÈ˜
+uc:S5350#"cMake the type of this variable a pointer-to-const. The current type of "chaveDoIndice" is "char *".(åÈëZ
+cc:S1912#"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(åÈëZ
+nc:S53500"[Make the type of this variable a pointer-to-const. The current type of "chave" is "char *".(¯ó‡ó
+dc:S19120"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(¯ó‡ó
+qc:S5350:"YMake the type of this variable a pointer-to-const. The current type of "key" is "char *".(Íƒáûÿÿÿÿ
+ic:S1912:"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(Íƒáûÿÿÿÿ
+sc:S995D"\Make the type of this parameter a pointer-to-const. The current type of "linha" is "char *".(Â¯ã‘üÿÿÿÿ
+pc:S5350G"]Make the type of this variable a pointer-to-const. The current type of "comando" is "char *".(Â·œƒ
+dc:S1912G"QReplace this call to the non reentrant function "strtok" by a call to "strtok_r".(Â·œƒ
+}c:S995b"fMake the type of this parameter a pointer-to-const. The current type of "indice" is "struct indice *".(ß¼•²úÿÿÿÿ
+}c:S995q"fMake the type of this parameter a pointer-to-const. The current type of "indice" is "struct indice *".(‹ó§ñüÿÿÿÿ
+}c:S995u"fMake the type of this parameter a pointer-to-const. The current type of "indice" is "struct indice *".(Éíìœúÿÿÿÿ
+Gc:S3519F"5String copy function overflows the destination buffer(£Ï€
+5c:S125V"Remove the commented out code.(å¬ªœýÿÿÿÿ

@@ -1,0 +1,9 @@
+
+Vc:S954"8Move these 3 #include directives to the top of the file.(­¦¦Ύψÿÿÿÿ8Δτσ0
+R	cpp:S5028"8Replace this macro by "const", "constexpr" or an "enum".(Ό¦£‰ύÿÿÿÿ
+Qcpp:S954"8Move these 3 #include directives to the top of the file.(­¦¦Ύψÿÿÿÿ
+Vc:S954"8Move these 3 #include directives to the top of the file.(­¦¦Ύψÿÿÿÿ8τσ0
+Vc:S954"8Move these 3 #include directives to the top of the file.(­¦¦Ύψÿÿÿÿ8Υ’τσ0
+Y	cpp:S5028"8Replace this macro by "const", "constexpr" or an "enum".(Ό¦£‰ύÿÿÿÿ8€“τσ0
+Xcpp:S954"8Move these 3 #include directives to the top of the file.(­¦¦Ύψÿÿÿÿ8Π“τσ0
+P	cpp:S5416";"using" should be preferred to "typedef" for type aliasing.(―ΰμ
