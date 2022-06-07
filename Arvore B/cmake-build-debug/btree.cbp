@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="btree"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="btree">
+				<Option output="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug/btree" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 btree"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="btree/fast">
+				<Option output="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug/btree" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 btree/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/mateus/Área\ de\ Trabalho/Arvore\ B/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/Aluno.c">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/Aluno.h">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/ArvoreB.c">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/ArvoreB.h">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/Util.c">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/Util.h">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/main.c">
+			<Option target="btree"/>
+		</Unit>
+		<Unit filename="/home/mateus/Área de Trabalho/Arvore B/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

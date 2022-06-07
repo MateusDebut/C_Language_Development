@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/btree.dir/main.c.o CMakeFiles/btree.dir/Aluno.c.o CMakeFiles/btree.dir/Util.c.o CMakeFiles/btree.dir/ArvoreB.c.o -o btree 
