@@ -5,23 +5,24 @@
 #define PAGESIZE 4096
 #define TREEHEADER PAGESIZE
 #define MAXKEYS 204
-#define AUX_FIELDS_SIZE_ON_PAGE (2+1) //numberofkeysand ”isleaf” bool
+#define AUX_FIELDS_SIZE_ON_PAGE (2+1) //number of keys and ”isleaf” bool
 
 #define FREE_SPACE_ON_PAGE (PAGESIZE - ((MAXKEYS * 4) + (MAXKEYS * 8) + ((MAXKEYS + 1) * 8) + 3))
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "ArvoreB.h"
 
-struct registro{
-    int chave;
+struct indice{
+    int chavePrimaria;
     long RRN;
 };
 
 struct pagina{
-    Registro *registro;
-    long filhos[4];
+    Indice *indices;
+    long RRNDosFilhos[MAXKEYS+1];
     short numeroDechaves;
-    int ehFolha;
+    char ehFolha;
 };
 
 typedef struct chavePromovida{
@@ -31,9 +32,37 @@ typedef struct chavePromovida{
 }ChavePromovida;
 
 // Funções de exemplo
-Pagina *lePaginaDoArquivo(FILE *filepointer){
-    // Aloca Espaço para carregar página
-    // Lê dados da página do arquivo
+
+Pagina *criaPagina(){
+    Pagina *pagina = (Pagina *) malloc(sizeof(Pagina));
+    pagina->indices = (Indice *) malloc(sizeof(Indice) * MAXKEYS);
+    for(int i = 0; i < MAXKEYS; i++){
+        pagina->indices[i].RRN = -1;
+        pagina->indices[i].chavePrimaria = -1;
+    }
+
+    pagina->numeroDechaves = 0;
+    pagina->ehFolha = 1;
+    for(int i = 0; i < MAXKEYS+1; i++){
+        pagina->RRNDosFilhos[i] = -1;
+    }
+    return pagina;
+}
+
+Pagina *lePaginaDoArquivo(FILE *filepointer, long RRN){
+    fseek(filepointer, 0, SEEK_SET);
+    Pagina *pagina = criaPagina();
+    fread(pagina->numeroDechaves, sizeof(short), 1, filepointer);
+    fread(pagina->ehFolha, sizeof(char), 1, filepointer);
+    for (int i = 0; i < MAXKEYS; i++) {
+        fread(pagina->indices[i].chavePrimaria, sizeof(int), 1, filepointer);
+        fread(pagina->indices[i].RRN, sizeof(long), 1, filepointer);
+    }
+    for (int i = 0; i <= MAXKEYS; i++) {
+        fread(pagina->RRNDosFilhos[i], sizeof(long), 1, filepointer);
+    }
+    fread(NULL, 1, FREE_SPACE_ON_PAGE, filepointer);
+    return pagina;
 }
 
 void escrevePaginaEmArquivo(long RRN, Pagina *pagina, FILE *filepointer){
@@ -42,44 +71,81 @@ void escrevePaginaEmArquivo(long RRN, Pagina *pagina, FILE *filepointer){
     //Escrever os dados
     // Atualiza valor do espaço livre na página
     // Dica: Criar uma função que só lida com a escrita dos dados e chamar aqui
-}
 
-Pagina *recuperaPagina(long RRN, FILE *filepointer){
-    //recupera uma página baseado no RRN
-    //Procura e carrega seus dados
+    fseek(filepointer, RRN, SEEK_SET);
+    fwrite(pagina->numeroDechaves, sizeof(short), 1, filepointer);
+    fwrite(pagina->ehFolha, sizeof(char), 1, filepointer);
+    for (int i = 0; i < MAXKEYS; i++) {
+        fwrite(pagina->indices[i].chavePrimaria, sizeof(int), 1, filepointer);
+        fwrite(pagina->indices[i].RRN, sizeof(long), 1, filepointer);
+    }
+    for (int i = 0; i <= MAXKEYS; i++) {
+        fwrite(pagina->RRNDosFilhos[i], sizeof(long), 1, filepointer);
+    }
+    fwrite(NULL, 1, FREE_SPACE_ON_PAGE, filepointer);
 }
 
 long recuperaCabecalhoDaArvore(FILE *filepointer){
-    //carrega o cabeçalho da árvore, que está no início do arquivo
+    long rrnDaRaiz;
+    fseek(filepointer, 0, SEEK_SET);
+    fread(&rrnDaRaiz, sizeof(long), 1, filepointer);
+    return rrnDaRaiz;
 }
 
 void escreveCabecalhoDaArvore(FILE *filepointer, long RRNdaRaiz){
     //Calcula o espaço livre e escreve no cabeçalho da árvore, junto com o nó raiz
+    fseek(filepointer, 0, SEEK_SET);
+    fwrite(&RRNdaRaiz, sizeof(long), 1, filepointer);
+    fwrite(NULL, 1, PAGESIZE - 8, filepointer);
 }
 
 Pagina *criaArvore(FILE *filepointer){
-    //Aloca espaço para a raiz
+    //Aloca espaço para a pagina raiz
     //inicializa os valores
     //Escreve a raiz no cabeçalho
+
+    Pagina *pagina = (Pagina *) malloc(sizeof(Pagina));
+    pagina->indices = (Indice *) malloc(sizeof(Indice) * MAXKEYS);
+    for(int i = 0; i < MAXKEYS; i++){
+        pagina->indices[i].RRN = -1;
+        pagina->indices[i].chavePrimaria = -1;
+    }
+
+    pagina->numeroDechaves = 0;
+    pagina->ehFolha = 1;
+    for(int i = 0; i < MAXKEYS+1; i++){
+        pagina->RRNDosFilhos[i] = -1;
+    }
+    escreveCabecalhoDaArvore(filepointer, PAGESIZE);
 }
 
-Pagina *recuperaOuCriaRaiz(FILE *arquivo){
+Pagina *recuperaRaiz(FILE *arquivo){
     //Verifica se a arvore já existe ou se precisa criar uma nova
     //Se a arvore não existir, cria ela
     //Se existir só pega o RRN da raiz
     //Pode ser adaptada para inserção e busca sem precisar de duas funções
+
+    fseek(arquivo, 0, SEEK_SET);
+    long RRN_Raiz;
+    fread(&RRN_Raiz, sizeof(long), 1,  arquivo);
+    Pagina *pagina = lePaginaDoArquivo(arquivo, RRN_Raiz);
+    return pagina;
 }
 
 ChavePromovida *insereNoNode(Pagina *pagina, ChavePromovida *novaChave, FILE *filepointer){
     //procura local para inserir nova chave na página
     //Se não couber, Splita ele
     //Escreve dados na página
+
+
 }
 
-Pagina *procuraPosicaoNaPaginaEInsere(){
+Pagina *procuraPosicaoNaPaginaEInsere(Pagina *pagina, ChavePromovida *novaChave){
     //Encontra a posição para inserir a chave
     //Se não existir espaço, precisa criar uma nova página (Usar uma função para criar)
     //Salvar dados da nova chave na página
+
+    //
 }
 
 Pagina *splitECriacaoDeNovoNo(Pagina **pagina){
@@ -127,13 +193,13 @@ ChavePromovida *_inserirNaArvore(Pagina *no, ChavePromovida *chave, FILE *filepo
     //Retornar chave promovida ou um valor NULL se não houver promoção
 }
 
-ChavePromovida *inserirNaArvore(PrimaryIndex *novoRegistro, Pagina *raiz, FILE *filepointer){
+/*ChavePromovida *inserirNaArvore(PrimaryIndex *novoIndice, Pagina *raiz, FILE *filepointer){
     //Função mais abstrata de inserção
     //Prepara os dados da nova chave
     //Tenta inserir recursivamente
     //Se tiver chave promovida no final da recursão, significa que existe nova raiz
     //Chama as funções para criar nova raiz e atualizar o cabeçalho
-}
+}*/
 
 /**
  * Retona o RRN se a chave existe, se não existir, retorna -1

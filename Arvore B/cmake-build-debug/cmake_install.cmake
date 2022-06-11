@@ -1,4 +1,4 @@
-# Install script for directory: /home/mateus/Área de Trabalho/Arvore B
+# Install script for directory: /home/mateus/Área de Trabalho/C_Language_Development/Arvore B
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

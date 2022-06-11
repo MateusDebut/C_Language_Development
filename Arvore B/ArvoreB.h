@@ -6,10 +6,14 @@
 #define BTREE_ARVOREB_H
 typedef struct pagina Pagina;
 
-typedef struct Registro Registro;
+typedef struct indice Indice;
 
+Pagina *criaPagina();
+Pagina *lePaginaDoArquivo(FILE *filepointer, long RRN);
 Pagina *recuperaOuCriaRaiz(FILE *arquivo);
 Pagina *recuperaRaiz(FILE *arquivo);
-void insereElemento(Registro *registro, Pagina *pagina, FILE *arquivo);
+void insereElemento(Indice *indice, Pagina *pagina, FILE *arquivo);
+long recuperaCabecalhoDaArvore(FILE *filepointer);
+void escreveCabecalhoDaArvore(FILE *filepointer, long RRNdaRaiz);
 
 #endif //BTREE_ARVOREB_H

@@ -57,10 +57,10 @@ RM = /snap/clion/193/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/mateus/Área de Trabalho/Arvore B"
+CMAKE_SOURCE_DIR = "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug"
+CMAKE_BINARY_DIR = "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug/CMakeFiles" "/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug//CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B/cmake-build-debug/CMakeFiles" "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B/cmake-build-debug//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mateus/Área de Trabalho/Arvore B/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mateus/Área de Trabalho/C_Language_Development/Arvore B/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
