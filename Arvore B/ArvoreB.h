@@ -15,5 +15,8 @@ Pagina *recuperaRaiz(FILE *arquivo);
 void insereElemento(Indice *indice, Pagina *pagina, FILE *arquivo);
 long recuperaCabecalhoDaArvore(FILE *filepointer);
 void escreveCabecalhoDaArvore(FILE *filepointer, long RRNdaRaiz);
+long buscaNaArvore(Pagina *pagina, int chave, FILE *filepointer);
+Indice buscaBinaria(Indice *indices, int chaveBuscada, int inicio, int fim);
+long localizaRRNProximaPagina(Pagina *pagina, int chave);
 
 #endif //BTREE_ARVOREB_H

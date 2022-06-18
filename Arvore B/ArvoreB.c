@@ -136,7 +136,7 @@ ChavePromovida *insereNoNode(Pagina *pagina, ChavePromovida *novaChave, FILE *fi
     //procura local para inserir nova chave na página
     //Se não couber, Splita ele
     //Escreve dados na página
-
+    long RRN = buscaNaArvore(pagina, novaChave, filepointer);
 
 }
 
@@ -145,7 +145,7 @@ Pagina *procuraPosicaoNaPaginaEInsere(Pagina *pagina, ChavePromovida *novaChave)
     //Se não existir espaço, precisa criar uma nova página (Usar uma função para criar)
     //Salvar dados da nova chave na página
 
-    //
+
 }
 
 Pagina *splitECriacaoDeNovoNo(Pagina **pagina){
@@ -180,6 +180,10 @@ Pagina *criaNoComChavePromovida(ChavePromovida *chavePromovida){
 void setarNoComoRaiz(Pagina *pagina, FILE *filepointer){
     //Escreve página nova e atualiza o cabeçalho para conter ela como raiz
     //Deveria ser chamada junto com criação de novo nó, quando a promoção criar uma nova raiz
+    escrevePaginaEmArquivo();
+    escreveCabecalhoDaArvore();
+
+
 }
 
 ChavePromovida *_inserirNaArvore(Pagina *no, ChavePromovida *chave, FILE *filepointer){
@@ -213,4 +217,46 @@ long buscaNaArvore(Pagina *pagina, int chave, FILE *filepointer){
     //Se não existir, tentar procurar no nó filho adequad, recursivamente
     //Se encontrar a chave, retorna o RRN dela
     //Se não encontrar, (chegar em um nó folha e ela não estiver lá) retorna -1
+
+    Indice indiceRetornado = buscaBinaria(pagina->indices, chave, 0, MAXKEYS-1);
+    if(indiceRetornado.chavePrimaria == chave){
+        return indiceRetornado.RRN;
+    }
+
+    if(pagina->ehFolha){
+        return -1;
+    }
+
+    long RRNDaProximaPagina = localizaRRNProximaPagina(pagina, chave);
+    pagina = lePaginaDoArquivo(filepointer, RRNDaProximaPagina);
+    return buscaNaArvore(pagina, chave, filepointer);
+
+}
+
+Indice buscaBinaria(Indice *indices, int chaveBuscada, int inicio, int fim){
+    int meioDoVetor = (fim + inicio) / 2;
+    if(inicio > fim) return indices[inicio];
+
+    if(indices[meioDoVetor].chavePrimaria == chaveBuscada){
+        return indices[meioDoVetor];
+    }
+
+    if(chaveBuscada < indices[meioDoVetor].chavePrimaria){
+        return buscaBinaria(indices, chaveBuscada, inicio, meioDoVetor-1);
+    }else if(chaveBuscada > indices[meioDoVetor].chavePrimaria){
+        return buscaBinaria(indices, chaveBuscada, meioDoVetor+1, fim);
+    }
+}
+
+long localizaRRNProximaPagina(Pagina *pagina, int chave){
+    long RRNDaProximaPagina;
+    for (int i = 0; i < MAXKEYS-1; i++) {
+        if(pagina->indices[i].chavePrimaria > chave){
+            RRNDaProximaPagina = pagina->RRNDosFilhos[i];
+            break;
+        }else if(pagina->indices[i].chavePrimaria < chave && i >= MAXKEYS-1){
+            RRNDaProximaPagina = pagina->RRNDosFilhos[i+1];
+            break;
+        }
+    }
 }
