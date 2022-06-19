@@ -229,12 +229,44 @@ ChavePromovida *extrairChavePromovida(Pagina *pagina){
     //Aloca espaço para a chave
     //Tira ela da página
     //Atualiza os dados da página (filhos, numero de chaves e etc)
+
+    ChavePromovida *chavePromovida = (ChavePromovida *) malloc(sizeof(ChavePromovida));
+    chavePromovida->chave = pagina->indices[0].chavePrimaria;
+    chavePromovida->RRN = pagina->indices[0].RRN;
+    chavePromovida->filhos[0] = pagina->RRNDosFilhos[0];
+    chavePromovida->filhos[1] = pagina->RRNDosFilhos[1];
+
+    pagina = retrocedeIndices(pagina);
+    return chavePromovida;
 }
 
-ChavePromovida *split(Pagina *pagina, FILE filepointer, ChavePromovida *novaChave){
+Pagina *retrocedeIndices(Pagina *pagina){
+    for (int i = 0; pagina->indices[i].chavePrimaria != -1; i++) {
+        pagina->indices[i].chavePrimaria = pagina->indices[i+1].chavePrimaria;
+        pagina->indices[i].RRN = pagina->indices[i+1].RRN;
+        pagina->numeroDechaves++;
+    }
+
+    for (int i = 0; i < MAXKEYS+1; i++) {
+        pagina->RRNDosFilhos[i] = pagina->RRNDosFilhos[i+1];
+    }
+}
+
+
+
+ChavePromovida *split(Pagina *pagina, FILE *filepointer, ChavePromovida *novaChave){
     //Divide a página, cria o novo nó (fazer uma função auxiliar, pois é complexo)
     //Extrai a chave promovida e atualiza os filhos da chave
     //Escreve a página nova e a que foi dividida (com suas atualizações) no arquivo
+
+    Pagina *novaPagina = splitECriacaoDeNovoNo(pagina);
+    ChavePromovida *chavePromovida = extrairChavePromovida(pagina);
+    fseek(filepointer, 0, SEEK_END);
+    long RRN_Nova_Pagina= ftell(filepointer);
+    chavePromovida->filhos[1] = RRN_Nova_Pagina;
+    procuraPosicaoNaPaginaEInsere(novaPagina, chavePromovida);
+    // escrevePaginaEmArquivo()
+
 }
 
 Pagina *criaNoComChavePromovida(ChavePromovida *chavePromovida,long RRN, FILE *filepointer){
