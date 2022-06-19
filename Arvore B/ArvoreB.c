@@ -25,11 +25,11 @@ struct pagina{
     char ehFolha;
 };
 
-typedef struct chavePromovida{
+struct chavePromovida{
     int chave;
     long RRN;
     long filhos[2];
-}ChavePromovida;
+};
 
 // Funções de exemplo
 
@@ -104,18 +104,7 @@ Pagina *criaArvore(FILE *filepointer){
     //inicializa os valores
     //Escreve a raiz no cabeçalho
 
-    Pagina *pagina = (Pagina *) malloc(sizeof(Pagina));
-    pagina->indices = (Indice *) malloc(sizeof(Indice) * MAXKEYS);
-    for(int i = 0; i < MAXKEYS; i++){
-        pagina->indices[i].RRN = -1;
-        pagina->indices[i].chavePrimaria = -1;
-    }
-
-    pagina->numeroDechaves = 0;
-    pagina->ehFolha = 1;
-    for(int i = 0; i < MAXKEYS+1; i++){
-        pagina->RRNDosFilhos[i] = -1;
-    }
+    Pagina *pagina = criaPagina();
     escreveCabecalhoDaArvore(filepointer, PAGESIZE);
 }
 
@@ -125,9 +114,7 @@ Pagina *recuperaRaiz(FILE *arquivo){
     //Se existir só pega o RRN da raiz
     //Pode ser adaptada para inserção e busca sem precisar de duas funções
 
-    fseek(arquivo, 0, SEEK_SET);
-    long RRN_Raiz;
-    fread(&RRN_Raiz, sizeof(long), 1,  arquivo);
+    long RRN_Raiz = recuperaCabecalhoDaArvore(arquivo);
     Pagina *pagina = lePaginaDoArquivo(arquivo, RRN_Raiz);
     return pagina;
 }
@@ -136,7 +123,13 @@ ChavePromovida *insereNoNode(Pagina *pagina, ChavePromovida *novaChave, FILE *fi
     //procura local para inserir nova chave na página
     //Se não couber, Splita ele
     //Escreve dados na página
-    long RRN = buscaNaArvore(pagina, novaChave, filepointer);
+
+    //Se pagina está cheia, faz o split
+    if(pagina->indices[MAXKEYS].chavePrimaria != -1){
+        split();
+    }else{
+        pagina = procuraPosicaoNaPaginaEInsere(pagina, novaChave);
+    }
 
 }
 
@@ -145,19 +138,94 @@ Pagina *procuraPosicaoNaPaginaEInsere(Pagina *pagina, ChavePromovida *novaChave)
     //Se não existir espaço, precisa criar uma nova página (Usar uma função para criar)
     //Salvar dados da nova chave na página
 
+    Indice *indices = (Indice *) malloc((MAXKEYS-1) * sizeof(Indice));
+    long RRNDosFilhos[MAXKEYS+1];
+    int posicaoDaChave;
+
+    //Copia todos as chaves para um array auxiliar
+    for (int i = 0; i < MAXKEYS; i++) {
+        //procura a primeira incidencia na página de uma chave primária
+        //maior que a nova chave e insere a nova chave na posição anterior
+        if(pagina->indices[i+1].chavePrimaria > novaChave->chave){
+            indices[i].chavePrimaria = novaChave->chave;
+            indices[i].RRN = novaChave->RRN;
+            posicaoDaChave = i;
+        }else{
+            indices[i].chavePrimaria = pagina->indices[i].chavePrimaria;
+            indices[i].RRN = pagina->indices[i].RRN;
+        }
+    }
+
+    //Copia o RRN de todos os filhos para um array auxiliar
+    for (int i = 0; i < MAXKEYS+1; i++) {
+        //quando encontra a posicao em que inseriu a nova chave,
+        //insere os RRNs dos filhos na mesma posição
+        if(i == posicaoDaChave){
+            RRNDosFilhos[i] = novaChave->filhos[0];
+            RRNDosFilhos[i + 1] = novaChave->filhos[1];
+            i++;
+        }else{
+            RRNDosFilhos[i] = pagina->RRNDosFilhos[i];
+        }
+    }
+
+    //Passa os dados do Array auxiliar novamente para a página,
+    //Com a chave nova inserida
+    for (int i = 0; i < MAXKEYS; i++) {
+        pagina->indices[i].chavePrimaria = indices[i].chavePrimaria;
+        pagina->indices[i].RRN = indices[i].RRN;
+    }
+    for (int i = 0; i < MAXKEYS+1; i++) {
+        pagina->RRNDosFilhos[i] = RRNDosFilhos[i];
+    }
+
+    pagina->numeroDechaves++;
+    return pagina;
 
 }
 
-Pagina *splitECriacaoDeNovoNo(Pagina **pagina){
+Pagina *splitECriacaoDeNovoNo(Pagina *pagina){
     //Encontra a posição do meio das chaves
-    //Cria espaço para as novas páginas
+    //Cria espaço para a nova página
     //Copia metade das chaves para página nova
     //Limpa elas do nó antigo
     //Atualiza os filhos de ambas as páginas
     //Atualiza o numero de chaves de ambas
+
+    int meioDoArray = MAXKEYS / 2;
+    Pagina *novaPagina = criaPagina();
+
+    novaPagina = transpoeDadosParaNovaPagina(pagina, novaPagina, 0, meioDoArray);
+    pagina = transpoeDadosParaNovaPagina(pagina, pagina, meioDoArray+1, MAXKEYS);
+    for (int i = meioDoArray + 1; i < MAXKEYS; i++) {
+        pagina->indices[i].chavePrimaria = -1;
+        pagina->indices[i].RRN = -1;
+    }
+
+    for (int i = meioDoArray + 1; i < MAXKEYS + 1; i++) {
+        pagina->RRNDosFilhos[i] = -1;
+    }
 }
 
-ChavePromovida *extrairChavePromovida(){
+Pagina *transpoeDadosParaNovaPagina(Pagina *origem, Pagina *destino, int inicio, int fim){
+    destino->numeroDechaves = 0;
+    for (int i = inicio, j = 0; i < fim; i++, j++) {
+        destino->indices[j].chavePrimaria = origem->indices[i].chavePrimaria;
+        destino->indices[j].RRN = origem->indices[i].RRN;
+        destino->numeroDechaves++;
+    }
+
+    for (int i = inicio, j = 0; i < fim+1; i++, j++) {
+        destino->RRNDosFilhos[j] = origem->RRNDosFilhos[i];
+    }
+
+    if(origem->ehFolha == 1){
+        destino->ehFolha = 1;
+    }
+    return destino;
+}
+
+ChavePromovida *extrairChavePromovida(Pagina *pagina){
     //Aloca espaço para a chave
     //Tira ela da página
     //Atualiza os dados da página (filhos, numero de chaves e etc)
@@ -169,21 +237,30 @@ ChavePromovida *split(Pagina *pagina, FILE filepointer, ChavePromovida *novaChav
     //Escreve a página nova e a que foi dividida (com suas atualizações) no arquivo
 }
 
-Pagina *criaNoComChavePromovida(ChavePromovida *chavePromovida){
+Pagina *criaNoComChavePromovida(ChavePromovida *chavePromovida,long RRN, FILE *filepointer){
     //Se promoção, cria estrutura para nova raiz
     //Aloca espaço para ela
     //Salva dados da chave promovida na nova raiz
     //Atualiza os filhos deste novo nó/página
     //É possível reusar a função que cria página nova e adicionar somente especificidades
+
+    Pagina *pagina = criaPagina();
+    pagina->indices[0].chavePrimaria = chavePromovida->chave;
+    pagina->indices[0].RRN = chavePromovida->RRN;
+    pagina->RRNDosFilhos[0] = chavePromovida->filhos[0];
+    pagina->RRNDosFilhos[1] = chavePromovida->filhos[1];
+    pagina->numeroDechaves = 1;
+    pagina->ehFolha = 0;
+    setarNoComoRaiz(pagina, RRN, filepointer);
+    atualizarFilhosDoNovoNo(); //lembrar de fazer o split e todas as alterações necessárias
 }
 
-void setarNoComoRaiz(Pagina *pagina, FILE *filepointer){
+void setarNoComoRaiz(Pagina *pagina, long RRN, FILE *filepointer){
     //Escreve página nova e atualiza o cabeçalho para conter ela como raiz
     //Deveria ser chamada junto com criação de novo nó, quando a promoção criar uma nova raiz
-    escrevePaginaEmArquivo();
-    escreveCabecalhoDaArvore();
 
-
+    escrevePaginaEmArquivo(RRN, pagina, filepointer);
+    escreveCabecalhoDaArvore(filepointer, RRN);
 }
 
 ChavePromovida *_inserirNaArvore(Pagina *no, ChavePromovida *chave, FILE *filepointer){
@@ -223,7 +300,7 @@ long buscaNaArvore(Pagina *pagina, int chave, FILE *filepointer){
         return indiceRetornado.RRN;
     }
 
-    if(pagina->ehFolha){
+    if(pagina->ehFolha == 1){
         return -1;
     }
 
@@ -250,11 +327,11 @@ Indice buscaBinaria(Indice *indices, int chaveBuscada, int inicio, int fim){
 
 long localizaRRNProximaPagina(Pagina *pagina, int chave){
     long RRNDaProximaPagina;
-    for (int i = 0; i < MAXKEYS-1; i++) {
+    for (int i = 0; i < MAXKEYS; i++) {
         if(pagina->indices[i].chavePrimaria > chave){
             RRNDaProximaPagina = pagina->RRNDosFilhos[i];
             break;
-        }else if(pagina->indices[i].chavePrimaria < chave && i >= MAXKEYS-1){
+        }else if(pagina->indices[i].chavePrimaria < chave && i >= MAXKEYS){
             RRNDaProximaPagina = pagina->RRNDosFilhos[i+1];
             break;
         }

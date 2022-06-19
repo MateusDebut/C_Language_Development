@@ -32,11 +32,7 @@ int retornaNumeroDeAlunosDoArray(Aluno **alunos);
 
 Aluno *criaAlunoAPartirDeLinhaCSV(char *string);
 
-Aluno **criaListaAlunosAPartirDoCSV();
-
 int isBlank(char *string);
-
-Aluno **leUltimosDezAlunosDoArquivo(FILE *filePointer);
 
 void alunoPrint(Aluno *aluno);
 

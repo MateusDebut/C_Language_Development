@@ -66,17 +66,6 @@ Aluno *leAlunoDoArquivo(FILE *filePointer){
     return aluno;
 }
 
-Aluno **criaListaAlunosAPartirDoCSV(){
-    Aluno **alunos = NULL;
-    int counter = 0;
-    do{
-        alunos = (Aluno**) realloc(alunos,(1+counter) * sizeof(Aluno *));
-        alunos[counter] = criaAlunoAPartirDeLinhaCSV(readline(stdin));
-        counter++;
-    }while(!feof(stdin));
-    return alunos;
-}
-
 Aluno *criaAlunoAPartirDeLinhaCSV(char *string){
     if(isBlank(string)) return NULL;
     Aluno *aluno = (Aluno *) malloc(sizeof(Aluno));
@@ -97,18 +86,6 @@ int isBlank(char *string){
 }
 
 Aluno **leAlunosDoArquivo(FILE *filePointer){
-    Aluno **alunos = NULL;
-    int counter = 0;
-    do{
-        alunos = (Aluno**) realloc(alunos,(1+counter) * sizeof(Aluno *));
-        alunos[counter] = leAlunoDoArquivo(filePointer);
-        counter++;
-    }while(alunos[counter-1] != NULL);
-    return alunos;
-}
-
-Aluno **leUltimosDezAlunosDoArquivo(FILE *filePointer){
-    fseek(filePointer, -10*108, SEEK_END);
     Aluno **alunos = NULL;
     int counter = 0;
     do{

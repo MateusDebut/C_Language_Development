@@ -4,7 +4,6 @@
 
 int main(int argc, char const *argv[])
 {
-    tamanho();
     FILE *arquivoRegistros = fopen("alunos.txt", "w+");
     FILE *arquivoIndices = fopen("indices.txt", "w+");
 
