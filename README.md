@@ -1,2 +1,7 @@
-# Exercicios em linguagem C
- Exercícios em linguagem C, do básico ao avançado
+# Algoritmos e Estruturas de Dados em C
+* Pilhas
+* Filas
+* Listas encadeadas
+* Listas circulares
+* Árvores
+* Grafos
